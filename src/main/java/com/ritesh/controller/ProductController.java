@@ -9,21 +9,22 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/product")
+@RequestMapping("/api/v1/product")
 @RequiredArgsConstructor
 public class ProductController {
 
     private final ProductService productService;
 
-    @PostMapping("/addProduct")
+    @PostMapping
     public ResponseEntity<String> save(@RequestBody Product product){
         productService.save(product);
         return ResponseEntity.ok("Product saved");
     }
 
-    @GetMapping("/")
-    public ResponseEntity<Product> findById(@RequestParam int id){
-        return ResponseEntity.ok(productService.findById(id));
+    @GetMapping("/{id}")
+    public ResponseEntity<Product> findById(@PathVariable int id){
+        throw new RuntimeException("just a dummy excepetion");
+//        return ResponseEntity.ok(productService.findById(id));
     }
 
     @GetMapping("/all")
@@ -31,13 +32,13 @@ public class ProductController {
         return ResponseEntity.ok(productService.findAll());
     }
 
-    @PutMapping("/updateProduct")
-    public ResponseEntity<Product> updateProduct(@RequestParam int id, @RequestBody Product product){
+    @PutMapping("/{id}")
+    public ResponseEntity<Product> updateProduct(@PathVariable int id, @RequestBody Product product){
         return ResponseEntity.ok(productService.updateProduct(id, product));
     }
 
-    @DeleteMapping("/")
-    public ResponseEntity<String> deleteProduct(@RequestParam int id){
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteProduct(@PathVariable int id){
         productService.deleteProduct(id);
         return ResponseEntity.ok("Product deleted successfully");
     }
